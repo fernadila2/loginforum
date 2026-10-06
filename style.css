@@ -1,0 +1,328 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Outfit", sans-serif;
+}
+
+:root {
+  --yellow: #ffc400;
+  --warm: 255, 196, 0;
+}
+
+body {
+  background: #000;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.room {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 120px;
+  padding: 24px;
+  background: #000;
+  transition: background 1s ease;
+}
+
+/* soft warm glow over the whole room */
+.room-light {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 25% 40%, rgba(var(--warm), .18), transparent 60%);
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+}
+.room.on { background: #14110a; }
+.room.on .room-light { opacity: 1; }
+
+/* ---------- Lamp ---------- */
+.lamp-wrap {
+  position: relative;
+  width: 220px;
+  height: 460px;
+  z-index: 2;
+}
+
+.lamp {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.lamp-shade {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 170px;
+  height: 62px;
+  background: #1b1b1b;
+  border-radius: 85px 85px 0 0;
+  transition: box-shadow 1s ease;
+  z-index: 3;
+}
+.room.on .lamp-shade {
+  box-shadow: 0 0 40px rgba(var(--warm), .45);
+}
+
+.lamp-bulb {
+  position: absolute;
+  top: 58px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 8px;
+  border-radius: 0 0 60px 60px;
+  background: #2a2a2a;
+  transition: background 1s ease, box-shadow 1s ease;
+  z-index: 4;
+}
+.room.on .lamp-bulb {
+  background: #fff6d8;
+  box-shadow: 0 0 25px 8px rgba(var(--warm), .7);
+}
+
+.lamp-pole {
+  position: absolute;
+  top: 62px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 380px;
+  background: #1f1f1f;
+}
+
+.lamp-base {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 18px;
+  background: #1b1b1b;
+  border-radius: 50% 50% 0 0;
+}
+
+/* ---------- Pull cord ---------- */
+.lamp-cord {
+  position: absolute;
+  top: 62px;
+  left: calc(50% + 62px);
+  width: 24px;
+  height: 120px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: top center;
+  transition: transform .15s ease;
+  z-index: 5;
+}
+.lamp-cord:active { transform: translateY(14px); }
+.lamp-cord:focus-visible { outline: 2px dashed var(--yellow); outline-offset: 4px; }
+
+.cord-line {
+  width: 2px;
+  height: 60px;
+  background: #3a3a3a;
+}
+.room.on .cord-line { background: #8a7430; }
+
+.cord-knob {
+  width: 12px;
+  height: 22px;
+  border-radius: 6px;
+  background: #c9a227;
+}
+
+/* ---------- Light cone ---------- */
+.light-cone {
+  position: absolute;
+  top: 66px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 440px;
+  height: 394px;
+  clip-path: polygon(30% 0, 70% 0, 100% 100%, 0 100%);
+  background: linear-gradient(to bottom, rgba(var(--warm), .75), rgba(var(--warm), .12));
+  opacity: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+.room.on .light-cone { opacity: 1; }
+
+/* ---------- Login card ---------- */
+.card {
+  position: relative;
+  z-index: 2;
+  width: 440px;
+  max-width: 100%;
+  padding: 40px 36px 36px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 28px;
+  backdrop-filter: blur(14px);
+  color: #fff;
+  text-align: center;
+
+  opacity: 0;
+  filter: blur(8px);
+  transform: scale(.96);
+  pointer-events: none;
+  transition: opacity 1s ease, filter 1s ease, transform 1s ease;
+}
+.room.on .card {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.card h1 {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.subtitle {
+  margin: 10px 0 28px;
+  font-size: 15px;
+  color: rgba(255, 255, 255, .55);
+}
+
+.field {
+  position: relative;
+  margin-bottom: 16px;
+}
+.field i {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: rgba(255, 255, 255, .5);
+}
+.field input {
+  width: 100%;
+  height: 54px;
+  padding: 0 18px 0 52px;
+  background: rgba(0, 0, 0, .35);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+  transition: border-color .25s ease;
+}
+.field input::placeholder { color: rgba(255, 255, 255, .45); }
+.field input:focus { border-color: var(--yellow); }
+
+.btn-primary {
+  width: 100%;
+  height: 52px;
+  margin-top: 8px;
+  background: var(--yellow);
+  color: #111;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: filter .25s ease, transform .1s ease;
+}
+.btn-primary:hover { filter: brightness(1.12); }
+.btn-primary:active { transform: scale(.98); }
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 26px 0 20px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, .45);
+}
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(255, 255, 255, .12);
+}
+
+.social {
+  display: flex;
+  gap: 14px;
+}
+.btn-social {
+  flex: 1;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .25s ease;
+}
+.btn-social:hover { background: rgba(255, 255, 255, .12); }
+.btn-social i { font-size: 20px; }
+.btn-social .google { color: #4285f4; }
+
+/* ---------- Fireflies ---------- */
+.fireflies {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.firefly {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #ffd84d;
+  box-shadow: 0 0 10px 3px rgba(var(--warm), .8);
+  opacity: 0;
+  animation: float var(--dur) ease-in-out infinite;
+}
+@keyframes float {
+  0%   { opacity: 0;  transform: translate(0, 0); }
+  25%  { opacity: .9; }
+  50%  { opacity: .3; transform: translate(var(--dx), var(--dy)); }
+  75%  { opacity: .9; }
+  100% { opacity: 0;  transform: translate(calc(var(--dx) * 2), calc(var(--dy) * -1)); }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .room {
+    flex-direction: column;
+    gap: 30px;
+    overflow: visible;
+    justify-content: flex-start;
+    padding-bottom: 60px;
+  }
+  .lamp-wrap { transform: scale(.75); transform-origin: top center; height: 350px; }
+  .card { width: 100%; max-width: 440px; }
+  .lamp-pole { height: 280px }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .firefly { animation: none; opacity: .5; }
+  * { transition-duration: .01s !important; }
+}
